@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 #pylint:disable=all
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = 'django-insecure-b@4z=la#ouy1sqavuqzt8o3u6hi)r+=9qwz6m0-d$2za)!bq3w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -73,26 +76,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myai.wsgi.application'
 
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'initial_db',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': '',  # Change to your server IP if remote
-#         'PORT': '5432',  # Default PostgreSQL port
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'Speed#123',
-        'HOST': 'localhost',  # Change to your server IP if remote
-        'PORT': '5432',  # Default PostgreSQL port
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'Speed#123'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
