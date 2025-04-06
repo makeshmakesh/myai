@@ -1,9 +1,7 @@
 name: Zappa Update (dev)
 
 on:
-  push:
-    branches:
-      - main  # Trigger on push to main branch
+  workflow_dispatch:  # 👈 manual trigger only
 
 jobs:
   update:
@@ -16,7 +14,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'  # Match your Django project's version
+          python-version: '3.11'
 
       - name: 🧪 Install Dependencies
         run: |
