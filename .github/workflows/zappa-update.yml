@@ -10,7 +10,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1  # or your actual region
+      AWS_DEFAULT_REGION: us-east-1  # or your region
 
     steps:
       - name: 📥 Checkout Code
@@ -21,13 +21,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 📦 Create and activate virtualenv, install dependencies
+      - name: 📦 Create venv, activate, and install deps
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install --upgrade pip
+
+          # Install essential tools
+          pip install --upgrade pip setuptools wheel
+
+          # Install project deps
           pip install -r requirements.txt
           pip install zappa
 
-          # ✅ Perform the update
+          # ✅ Run the Zappa update
           zappa update dev
