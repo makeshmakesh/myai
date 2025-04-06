@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makesh - Senior Python Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5B4DFF;
+            --primary-dark: #3F32E0;
+            --secondary: #00C7B1;
+            --text-dark: #2D2D2D;
+            --text-light: #747474;
+            --light-bg: #F9FAFB;
+            --white: #FFFFFF;
+            --dark: #121212;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 3rem 0;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--white);
+            padding: 4rem 0;
+        }
+
+        .hero-container {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex: 2;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title span {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .hero-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-icon {
+            margin-right: 0.5rem;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-link {
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .contact-link:hover {
+            color: var(--primary);
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
+        /* SECTION STYLES */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        /* SKILLS */
+        .skills {
+            background: var(--light-bg);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .skill-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-list li::before {
+            content: "▹";
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        /* EXPERIENCE */
+        .experience {
+            background: var(--white);
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+            border-left: 2px solid var(--primary);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            left: -7px;
+            top: 6px;
+        }
+
+        .experience-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-company {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .experience-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .experience-description ul {
+            list-style: none;
+        }
+
+        .experience-description li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .experience-description li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* PROJECTS */
+        .projects {
+            background: var(--light-bg);
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tag {
+            background: rgba(91, 77, 255, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* EDUCATION */
+        .education {
+            background: var(--white);
+        }
+
+        .education-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .education-degree {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-school {
+            font-weight: 500;
+        }
+
+        .education-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column-reverse;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                padding: 1rem 2rem;
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">Makesh</a>
+            <nav>
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="nav-link">About me</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#experience" class="nav-link">Experience</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#education" class="nav-link">Education</a>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Hi, I'm <span>Makesh</span></h1>
+                <h3 class="hero-subtitle">Senior Python Developer</h3>
+                <p class="hero-description">
+                    Senior Software Engineer with 4 years of expertise in building scalable microservices and leading backend teams. 
+                    Specialized in Python, Django, AWS and extensive experience in developing and optimizing SaaS platforms.
+                </p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <a href="mailto:mmakesh9876@gmail.com" class="contact-link">mmakesh9876@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone contact-icon"></i>
+                        <a href="tel:+918760400447" class="contact-link">+91-8760400447</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <span>Chennai, India</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github contact-icon"></i>
+                        <a href="https://github.com/makesh9876" target="_blank" class="contact-link">github.com/makesh9876</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin contact-icon"></i>
+                        <a href="https://www.linkedin.com/in/makeshmakesh/" target="_blank" class="contact-link">linkedin.com/in/makeshmakesh</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="avatar">M</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-container">
+                <div class="skill-card">
+                    <h3 class="skill-title">Programming Languages</h3>
+                    <ul class="skill-list">
+                        <li>Python</li>
+                        <li>SQL</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3 class="skill-title">Frameworks & Tools</h3>
+                    <ul class="skill-list">
+                        <li>Django</li>
+                        <li>Fast API</li>
+                        <li>Node.js</li>
+                        <li>Git</li>
+                        <li>Docker</li>
+                        <li>Selenium</li>
+                        <li>PostgreSQL</li>
+                        <li>REST API</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3 class="skill-title">Cloud Services</h3>
+                    <ul class="skill-list">
+                        <li>AWS Lambda</li>
+                        <li>AWS S3</li>
+                        <li>AWS CloudWatch</li>
+                        <li>AWS SQS</li>
+                        <li>AWS API Gateway</li>
+                        <li>AWS DynamoDB</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3 class="skill-title">Soft Skills</h3>
+                    <ul class="skill-list">
+                        <li>Team Collaboration</li>
+                        <li>Adaptability</li>
+                        <li>Communication</li>
+                        <li>Leadership</li>
+                        <li>Attention to Detail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="experience-item">
+                <h3 class="experience-title">Senior Python Developer at <span class="experience-company">Attune</span></h3>
+                <p class="experience-date">July 2021 - Present</p>
+                <div class="experience-description">
+                    <ul>
+                        <li>Engineered and deployed ~50 AWS Lambda microservices processing around 18M requests monthly with 99.9% uptime for a multi-tenant SaaS platform</li>
+                        <li>Developed a configurable rule engine for a leading $2.5B US bank, now scaled to process 45,000+ applications monthly across 6 major banking clients, reducing evaluation time by 75%</li>
+                        <li>Collaborated with the team to refactor 15+ Python Lambda functions, reducing memory usage by 30%, cutting deployment time by 15%, and implementing service independence, which eliminated 45% of production bugs</li>
+                        <li>Developed a custom CLI deployment tool that eliminated 95% of manual processes, saving 80% engineering hours in each deployment and enabling 3x faster release cycles</li>
+                        <li>Delivered a Python-Selenium framework that transformed around 250 test scenarios into JSON-based configurations, cutting QA cycles from weeks to days while boosting defect identification by 40%</li>
+                        <li>Built a Python email template engine from scratch supporting customizable templates via JSON, improving marketing/notification email deliverability by 35%</li>
+                        <li>Led a team of 4 engineers, mentoring them through codebase onboarding, code reviews, and technical clarifications, while ensuring timely backend deliveries for releases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">
+                        <a href="https://q8epbxo7sc.execute-api.us-east-1.amazonaws.com/dev" target="_blank" rel="noopener noreferrer">
+                          AI Chatbot Creation Platform
+                        </a>
+                      </h3>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Django</span>
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">AWS</span>
+                        <span class="project-tag">Cloud</span>
+                        <span class="project-tag">AI</span>
+                    </div>
+                    <p class="project-description">
+                        A no-code AI chatbot platform built to showcase my full-stack product development skills. Designed, developed, and deployed independently, this project demonstrates my expertise in system architecture, backend development, frontend implementation, cloud deployment, and AI integration. The platform allows users to create intelligent chatbots by uploading documents, enabling automated customer support with company-specific knowledge.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-item">
+                <h3 class="education-degree">Bachelor of Engineering in Electronics and Communication</h3>
+                <p class="education-school">SCAD College of Engineering and Technology</p>
+                <p class="education-date">June 2017 - May 2021</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/makesh9876" class="social-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/makeshmakesh/" class="social-link" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:mmakesh9876@gmail.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p class="copyright">© 2025 Makesh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Navigation
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

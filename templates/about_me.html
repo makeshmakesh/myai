@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Makesh's Side Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5B4DFF;
+            --primary-dark: #3F32E0;
+            --secondary: #00C7B1;
+            --text-dark: #2D2D2D;
+            --text-light: #747474;
+            --light-bg: #F9FAFB;
+            --white: #FFFFFF;
+            --dark: #121212;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 3rem 0;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* ABOUT SECTION */
+        .about-section {
+            background: var(--white);
+            padding: 4rem 0;
+        }
+
+        .about-container {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-content {
+            flex: 2;
+        }
+
+        .about-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .about-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-title span {
+            color: var(--primary);
+        }
+
+        .about-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .about-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
+        /* PROJECT OVERVIEW */
+        .project-overview {
+            background: var(--light-bg);
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* SKILLS SHOWCASE */
+        .skills-showcase {
+            background: var(--white);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .skill-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-list li::before {
+            content: "▹";
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .skill-tag {
+            background: rgba(91, 77, 255, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .about-container {
+                flex-direction: column-reverse;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                padding: 1rem 2rem;
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">Makesh</a>
+            <nav>
+                <div class="nav-links" id="navLinks">
+                    <a href="#about" class="nav-link">About This Project</a>
+                    <a href="#overview" class="nav-link">Project Overview</a>
+                    <a href="#skills" class="nav-link">Skills Showcase</a>
+                    <a href="https://github.com/makesh9876" class="nav-link">My GitHub</a>
+                    <a href="{% url 'home' %}" class="nav-link">Back to product</a>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container about-container">
+            <div class="about-content">
+                <h1 class="about-title">About <span>This Project</span></h1>
+                <h3 class="about-subtitle">My Side Project Journey</h3>
+                <p class="about-description">
+                    Welcome to my project! As a Senior Python Developer with a passion for creating scalable and efficient solutions, 
+                    I developed this project to showcase my skills beyond my professional work.
+                </p>
+                <p class="about-description">
+                    This project represents my commitment to continuous learning and my ability to independently design, develop, 
+                    and deploy full-stack applications. It embodies my approach to problem-solving and demonstrates the breadth 
+                    of my technical expertise outside of my day-to-day responsibilities.
+                </p>
+                <p class="about-description">
+                    Through this project, I aim to highlight not just my coding abilities, but also my understanding of system architecture, 
+                    cloud infrastructure, and user experience design. Every feature has been carefully crafted to demonstrate 
+                    the skills I've honed over my 4+ years in software development.
+                </p>
+            </div>
+            <div class="about-image">
+                <div class="avatar">M</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="project-overview" id="overview">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="project-card">
+                <h3 class="project-title">Why I Built This</h3>
+                <p>
+                    This side project was born from my desire to experiment with AI technologies and approaches that I don't always 
+                    get to use in my professional role. While my work has given me extensive experience with AWS Lambda, 
+                    microservices, this project allowed me to explore additional aspects of software development 
+                    that interest me personally.
+                </p>
+                <p>
+                    I wanted to create something that would showcase my end-to-end development capabilities, from initial concept 
+                    and architecture to deployment and optimization. This project demonstrates my ability to work independently, 
+                    make technical decisions, and implement best practices across the full development lifecycle.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Showcase -->
+    <section class="skills-showcase" id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills Showcase</h2>
+            <p>This project demonstrates my expertise across multiple domains:</p>
+            
+            <div class="skill-tags">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Django</span>
+                <span class="skill-tag">Fast API</span>
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Microservices</span>
+                <span class="skill-tag">Cloud Architecture</span>
+                <span class="skill-tag">System Design</span>
+                <span class="skill-tag">API Development</span>
+                <span class="skill-tag">Serverless</span>
+            </div>
+            
+            <div class="skills-container">
+                <div class="skill-card">
+                    <h3 class="skill-title">Backend Development</h3>
+                    <ul class="skill-list">
+                        <li>Scalable API design and implementation</li>
+                        <li>Optimized database architecture</li>
+                        <li>Serverless function development</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3 class="skill-title">Cloud Infrastructure</h3>
+                    <ul class="skill-list">
+                        <li>AWS service integration and optimization</li>
+                        <li>Infrastructure as Code implementation</li>
+                        <li>Automated deployment pipelines</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3 class="skill-title">System Architecture</h3>
+                    <ul class="skill-list">
+                        <li>Microservices design patterns</li>
+                        <li>Event-driven architecture</li>
+                        <li>Scalable and resilient systems</li>
+                        <li>Performance optimization techniques</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Want to See More of about me?</h2>
+            <p>Explore my complete portfolio to discover more projects and get a deeper understanding of my skills and experience.</p>
+            <a href="{% url 'portfolio' %}" class="cta-button">View My Portfolio</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/makesh9876" class="social-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/makeshmakesh/" class="social-link" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:mmakesh9876@gmail.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p class="copyright">© 2025 Makesh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Navigation
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
