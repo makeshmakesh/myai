@@ -1,6 +1,6 @@
 # pylint:disable=all
 from django.urls import path
-from langchainai import views
+from chatbot import views
 from django.views.generic import TemplateView
 
 # Wire up our API using automatic URL routing.

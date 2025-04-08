@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('langchainai', '0003_rename_configuration_keyconfiguration'),
+        ('chatbot', '0003_rename_configuration_keyconfiguration'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

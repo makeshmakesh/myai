@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('langchainai', '0004_profile'),
+        ('chatbot', '0004_profile'),
     ]
 
     operations = [

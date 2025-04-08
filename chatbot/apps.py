@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class LangchainaiConfig(AppConfig):
+class ChatbotConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'langchainai'
+    name = 'chatbot'
