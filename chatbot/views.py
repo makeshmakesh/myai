@@ -1,4 +1,4 @@
-# pylint:disable=all
+#pylint:disable=all
 import os
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
@@ -17,6 +17,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from pinecone import Pinecone
 from django.shortcuts import get_object_or_404
+import threading
+import requests
+ROOT_URL = "https://q8epbxo7sc.execute-api.us-east-1.amazonaws.com/dev"
 
 def get_assistant(assistant_name, pinecone_api_key):
     """
@@ -264,9 +267,21 @@ class UploadAssistantFile(View):
                 temp_file.write(chunk)
         print("loacal write completed")
         
-        # Upload file to Pinecone
-        response = pinecone_assistant.upload_file(file_path=file_path, timeout=None)
-        print("Upload to api done")
+        
+        def upload_to_lambda():
+            api_url = f"{ROOT_URL}/documents/upload"
+            with open(file_path, "rb") as f:
+                files = {"file": (uploaded_file.name, f)}
+                data = {
+                    "apikey": profile.pinecone_api_key,
+                    "username": profile.namespace,
+                }
+                try:
+                    requests.post(api_url, files=files, data=data)
+                except Exception as e:
+                    print("Upload error:", e)
+        
+        threading.Thread(target=upload_to_lambda).start()
         
         return JsonResponse({"message": "File uploaded successfully!"})
 

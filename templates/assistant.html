@@ -10,9 +10,13 @@
             <p class="text-muted">Manage the documents used with your AI assistant</p>
         </div>
         <div class="col-md-4 text-md-right">
+            <button class="btn btn-outline-secondary mr-2" id="refreshButton" onclick="location.reload();">
+                <i class="fas fa-sync-alt mr-2"></i>Refresh
+            </button>
             <button class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
                 <i class="fas fa-upload mr-2"></i>Upload File
             </button>
+
         </div>
     </div>
 
@@ -211,19 +215,7 @@
 
                 $(".modal-backdrop").remove();
                 $("body").removeClass("modal-open");
-
-                // Refresh the table content
-                fetch("{% url 'assistant-files' %}")
-                    .then(response => response.text())
-                    .then(html => {
-                        let tempDom = document.createElement("div");
-                        tempDom.innerHTML = html;
-                        let newContent = tempDom.querySelector(".content").innerHTML;
-                        document.querySelector(".content").innerHTML = newContent;
-
-                        // Rebind all event handlers
-                        bindAllEvents();
-                    });
+                window.location.reload();
             }
         })
         .catch(error => {
@@ -337,6 +329,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         bindAllEvents();
     });
+
 </script>
 
 <!-- Include Font Awesome for icons -->
