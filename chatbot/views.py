@@ -282,7 +282,7 @@ class UploadAssistantFile(View):
             return JsonResponse({"error": f"File write error: {str(e)}"}, status=500)
 
         def upload_to_lambda(file_path, file_name, apikey, username):
-            api_url = f"{ROOT_URL}/documents/upload"
+            api_url = f"{ROOT_URL}/documents/assitant-file"
             try:
                 with open(file_path, "rb") as f:
                     files = {"file": (file_name, f)}
@@ -315,25 +315,38 @@ class UploadAssistantFile(View):
 
 
 class DeleteAssistantFile(View):
-    """View for deleting files from the assistant."""
+    """
+    View for deleting assistant files using an API call.
+    The deletion runs in a background thread.
+    """
+
     def post(self, request, file_id):
         profile = Profile.objects.get(user=request.user)
-        
-        # Get assistant
-        pinecone_assistant = get_assistant(
-            assistant_name=request.user.username,
-            pinecone_api_key=profile.pinecone_api_key
-        )
-        
-        if pinecone_assistant is None:
-            return HttpResponse("Please configure the API key correctly, if the problem still not solved contact admin")
-        
-        # Delete file via Pinecone API
-        pinecone_assistant.delete_file(file_id=str(file_id))
-        messages.success(request, "File deleted successfully!")
-        
-        return redirect("assistant-files")
 
+        def delete_from_lambda(file_id, apikey, username):
+            api_url = f"{ROOT_URL}/documents/assitant-file"  # DELETE endpoint
+            try:
+                data = {
+                    "apikey": apikey,
+                    "username": username,
+                    "file_id": file_id,
+                }
+                response = requests.delete(api_url, data=data)
+                response.raise_for_status()
+                print("Delete successful")
+            except Exception as e:
+                print("Delete error:", e)
+
+        # Start background delete thread
+        thread = threading.Thread(
+            target=delete_from_lambda,
+            args=(file_id, profile.pinecone_api_key, profile.namespace),
+            daemon=True
+        )
+        thread.start()
+
+        messages.success(request, "File deletion initiated successfully!")
+        return redirect("assistant-files")
 
 class AssistantFiles(LoginRequiredMixin, View):
     """
