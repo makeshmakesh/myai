@@ -149,6 +149,23 @@
             }
         }
 
+        @media (max-width: 767px) {
+            /* Mobile specific fixes */
+            .modal-dialog {
+                margin: 0.5rem;
+                max-width: calc(100% - 1rem);
+            }
+            
+            .custom-file-input, .custom-file-label {
+                font-size: 0.875rem;
+            }
+            
+            /* Fix for iOS Safari double-tap issue */
+            .btn {
+                touch-action: manipulation;
+            }
+        }
+
         /* Special elements */
         .feature-icon {
             font-size: 2rem;

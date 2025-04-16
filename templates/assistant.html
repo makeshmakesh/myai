@@ -166,60 +166,77 @@
 
     document.getElementById("uploadForm").addEventListener("submit", function (e) {
         e.preventDefault();
-
+        
+        // Get the CSRF token from the form
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
         let fileInput = document.getElementById("fileInput");
         let file = fileInput.files[0];
         let uploadButton = this.querySelector("button[type='submit']");
         let allowedExtensions = [".pdf", ".docx", ".txt", ".json", ".md"];
         let formData = new FormData(this);
-
+        
         if (!file) {
             alert("Please select a file.");
             return;
         }
-
-        let fileExt = file.name.split('.').pop().toLowerCase();
-        if (!allowedExtensions.includes(`.${fileExt}`)) {
+        
+        let fileExt = `.${file.name.split('.').pop().toLowerCase()}`;
+        if (!allowedExtensions.includes(fileExt)) {
             alert("Invalid file type. Allowed types: PDF, DOCX, TXT, JSON, MD.");
             return;
         }
-
+        
         // File size validation (max 10MB)
         if (file.size > 10 * 1024 * 1024) {
             alert("File size exceeds the 10MB limit.");
             return;
         }
-
+        
         // Disable button and show loading state
         uploadButton.disabled = true;
         uploadButton.innerHTML = `<span class="spinner-border spinner-border-sm mr-2" role="status"></span> Uploading...`;
-
+        
+        // More robust fetch with explicit headers
         fetch("{% url 'upload-file' %}", {
             method: "POST",
             body: formData,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'same-origin'
         })
-        .then(response => response.json()) 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             uploadButton.disabled = false;
             uploadButton.innerHTML = "Upload File";
-
+            
             if (data.error) {
                 alert(data.error);
             } else {
                 $("#uploadModal").modal("hide");
                 document.getElementById("uploadForm").reset();
                 document.querySelector('.custom-file-label').innerText = "Choose file";
-
+                
+                // Clean up modal better
+                $("body").removeClass("modal-open").css("padding-right", "");
                 $(".modal-backdrop").remove();
-                $("body").removeClass("modal-open");
-                window.location.reload();
+                
+                // Reload the page after a small delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 300);
             }
         })
         .catch(error => {
             console.error("Error:", error);
+            alert("Upload failed. Please try again.");
             uploadButton.disabled = false;
             uploadButton.innerHTML = "Upload File";
         });
@@ -303,14 +320,28 @@
         });
     }
 
-    function bindModalEvents() {
-        document.querySelectorAll('[data-toggle="modal"]').forEach(button => {
-            button.addEventListener('click', function() {
-                let targetModal = document.querySelector(this.getAttribute('data-target'));
-                $(targetModal).modal('show');
+function bindModalEvents() {
+    document.querySelectorAll('[data-toggle="modal"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            let targetModal = document.querySelector(this.getAttribute('data-target'));
+            $(targetModal).modal('show');
+        });
+    });
+
+    function addTouchSupport() {
+        // Add touch events for mobile
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('touchend', function(e) {
+                // Prevent ghost clicks
+                e.preventDefault();
+                // Trigger the click event
+                this.click();
             });
         });
     }
+    
+}
 
     function bindAllEvents() {
         bindDeleteEvents();
@@ -328,6 +359,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         bindAllEvents();
+        addTouchSupport();
     });
 
 </script>
