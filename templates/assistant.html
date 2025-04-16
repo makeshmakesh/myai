@@ -236,7 +236,7 @@
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Upload failed. Please try again.");
+            alert("Upload failed. Please try again." + error);
             uploadButton.disabled = false;
             uploadButton.innerHTML = "Upload File";
         });

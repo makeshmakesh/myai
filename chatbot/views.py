@@ -245,45 +245,73 @@ class AssistantInstructions(LoginRequiredMixin, View):
 class UploadAssistantFile(View):
     """
     View for uploading files to the assistant.
-    Files are temporarily stored locally before being sent to Pinecone.
+    Files are temporarily stored locally before being sent to Lambda.
     """
+
     def post(self, request):
         profile = Profile.objects.get(user=request.user)
-        uploaded_file = request.FILES["file"]
-        
-        # Initialize Pinecone client and assistant
-        pinecone_client = Pinecone(api_key=profile.pinecone_api_key)
-        pinecone_assistant = pinecone_client.assistant.Assistant(
-            assistant_name=profile.namespace,
-        )
-        
+        uploaded_file = request.FILES.get("file")
+
+        if not uploaded_file:
+            return JsonResponse({"error": "No file uploaded"}, status=400)
+
+        # Validate Pinecone credentials
+        try:
+            pinecone_client = Pinecone(api_key=profile.pinecone_api_key)
+            pinecone_assistant = pinecone_client.assistant.Assistant(
+                assistant_name=profile.namespace,
+            )
+        except Exception as e:
+            return render(request, "error.html", {"message": f"API error: {str(e)}"})
+
         if pinecone_assistant is None:
-            return render(request, "error.html", {"message": "Please configure the API key correctly, if the problem still not solved contact admin"})
-        
+            return render(
+                request,
+                "error.html",
+                {"message": "Invalid Pinecone configuration. Contact admin."},
+            )
+
         # Save file temporarily
-        file_path = f"/tmp/{uploaded_file.name}"  # Adjust path if necessary
-        with open(file_path, "wb") as temp_file:
-            for chunk in uploaded_file.chunks():
-                temp_file.write(chunk)
-        print("loacal write completed")
-        
-        
-        def upload_to_lambda():
+        file_path = f"/tmp/{uploaded_file.name}"
+        try:
+            with open(file_path, "wb") as temp_file:
+                for chunk in uploaded_file.chunks():
+                    temp_file.write(chunk)
+            print("Local write completed")
+        except IOError as e:
+            return JsonResponse({"error": f"File write error: {str(e)}"}, status=500)
+
+        def upload_to_lambda(file_path, file_name, apikey, username):
             api_url = f"{ROOT_URL}/documents/upload"
-            with open(file_path, "rb") as f:
-                files = {"file": (uploaded_file.name, f)}
-                data = {
-                    "apikey": profile.pinecone_api_key,
-                    "username": profile.namespace,
-                }
+            try:
+                with open(file_path, "rb") as f:
+                    files = {"file": (file_name, f)}
+                    data = {
+                        "apikey": apikey,
+                        "username": username,
+                    }
+                    response = requests.post(api_url, files=files, data=data)
+                    response.raise_for_status()
+                    print("Upload successful")
+            except Exception as e:
+                print("Upload error:", e)
+            finally:
                 try:
-                    requests.post(api_url, files=files, data=data)
+                    os.remove(file_path)
+                    print("Temporary file removed")
                 except Exception as e:
-                    print("Upload error:", e)
-        
-        threading.Thread(target=upload_to_lambda).start()
-        
-        return JsonResponse({"message": "File uploaded successfully!"})
+                    print("Error deleting temp file:", e)
+
+        # Start background upload
+        thread = threading.Thread(
+            target=upload_to_lambda,
+            args=(file_path, uploaded_file.name, profile.pinecone_api_key, profile.namespace),
+            daemon=True  # Optional: ensures thread exits if main program exits
+        )
+        thread.start()
+
+        return JsonResponse({"message": "File upload initiated successfully!"})
+
 
 
 class DeleteAssistantFile(View):
