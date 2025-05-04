@@ -19,6 +19,7 @@ from pinecone import Pinecone
 from django.shortcuts import get_object_or_404
 import threading
 import requests
+import time
 ROOT_URL = "https://q8epbxo7sc.execute-api.us-east-1.amazonaws.com/dev"
 
 def get_assistant(assistant_name, pinecone_api_key):
@@ -38,7 +39,9 @@ def get_assistant(assistant_name, pinecone_api_key):
             assistant_name=assistant_name,
         )
     except Exception as error:
+        
         print("Error", error)
+        time.sleep(1)
         try:
             # If assistant doesn't exist, create a new one
             return pinecone_client.assistant.create_assistant(
@@ -47,7 +50,8 @@ def get_assistant(assistant_name, pinecone_api_key):
                 region="us",  # Region to deploy assistant. Options: "us" (default) or "eu".
                 timeout=30,  # Maximum seconds to wait for assistant status to become "Ready" before timing out.
             )
-        except:
+        except Exception as e:
+            print("Error on creating assistant", e)
             redirect("error")
 
 class PortfolioPage(View):
@@ -419,6 +423,7 @@ class ProfileView(LoginRequiredMixin, View):
             profile.openai_api_key = openai_key or profile.openai_api_key
             profile.pinecone_api_key = pinecone_key or profile.pinecone_api_key
             profile.save()
+            messages.success(request, 'Changes saved successfully!')
 
             return redirect("profile")
 

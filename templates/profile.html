@@ -3,8 +3,11 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+
 <div class="container my-5">
+    
     <div class="row justify-content-center">
+        
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-white border-0 pt-4">
@@ -14,6 +17,7 @@
                         </div>
                         <h2 class="font-weight-bold">Welcome, {{ request.user.username }}!</h2>
                         <p class="text-muted">Manage your API keys and settings</p>
+                        
                     </div>
                 </div>
                 
@@ -66,6 +70,7 @@
                             <small class="text-muted">Your vector database for AI-powered search</small>
                         </div>
                         
+                        
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary btn-block py-2">
                                 <i class="fas fa-save mr-2"></i>Save Changes
@@ -74,9 +79,10 @@
                     </form>
                     
                     <div class="text-center mt-4">
-                        <a href="{% url 'chat-lobby' bot_name=request.user.username %}" class="btn btn-success btn-block py-2">
-                            <i class="fas fa-comment-dots mr-2"></i>Chat with My AI
+                        <a href="{% url 'assistant-files' %}" class="btn btn-success btn-block py-2">
+                            <i class="fas fa-comment-dots mr-2"></i>Step 2: Upload Documents
                         </a>
+
                     </div>
                 </div>
                 

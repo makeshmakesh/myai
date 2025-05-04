@@ -7,6 +7,7 @@
     <div class="row mb-4">
         <div class="col-md-8">
             <h2 class="section-title">Your Files</h2>
+            
             <p class="text-muted">Manage the documents used with your AI assistant</p>
         </div>
         <div class="col-md-4 text-md-right">
@@ -99,7 +100,12 @@
                 </div>
             {% endif %}
         </div>
+
     </div>
+    <a class="nav-link" href="{% url 'assistant-instructions' %}"><button class="btn btn-primary mt-2">
+        Next step: Update Instruction
+            </button></a>
+    
 </div>
 
 <!-- Upload Modal -->
